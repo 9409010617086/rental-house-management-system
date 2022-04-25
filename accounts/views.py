@@ -5,12 +5,13 @@ from core.models import EvictionNotice, MoveOutNotice, ServiceRating
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from rental_property.models import Building, RentalUnit
 
-from accounts.forms import (AddManagerForm, ProfileUpdateForm, TenantUpdateForm, TenantsForm,
-                            UserUpdateForm)
+from accounts.forms import (AddManagerForm, ProfileUpdateForm, RecordsForm, TenantsForm,
+                            TenantUpdateForm, UserUpdateForm)
 from accounts.models import Managers, Profile, RelatedRecords, Tenants
 
 User = get_user_model()
@@ -135,8 +136,6 @@ def update_tenant(request, building_slug, username):
                'building': building, 'tenant': tenant}
     return render(request, 'accounts/update-tenant.html', context)
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 @login_required
 @user_passes_test(lambda user: user.is_manager == True, login_url='profile')
 def tenant_associated_records(request, building_slug, unit_slug, username):
@@ -146,7 +145,7 @@ def tenant_associated_records(request, building_slug, unit_slug, username):
     
     tenant_records = RelatedRecords.objects.filter(tenant=tenant)
     page = request.GET.get('page', 1)
-    paginator = Paginator(tenant_records, 10)
+    paginator = Paginator(tenant_records, 9)
     
     try:
         records = paginator.page(page)
@@ -155,8 +154,18 @@ def tenant_associated_records(request, building_slug, unit_slug, username):
     except EmptyPage:
         records = paginator.page(paginator.num_pages)
         
+    if request.method == 'POST':
+        record_form = RecordsForm(request.POST,request.FILES)
+        if record_form.is_valid():
+            record_form.instance.tenant = tenant
+            record_form.save()
+            messages.success(request, 'Record added successfully')
+            return HttpResponseRedirect("")
+    else:
+        record_form = RecordsForm()        
         
     context = {
         'building': building,'unit':unit,'tenant':tenant,'tenant_records': records,
+        'record_form':record_form,
     }
     return render(request, 'accounts/tenant_records.html', context)

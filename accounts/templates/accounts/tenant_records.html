@@ -25,7 +25,10 @@
                 <br>
                 <div class="card mb-4">
                     <div class="card-body text-center">
-                        <h5 class="my-3"> {{tenant.full_name}}'s Associated Records </h5>
+                        <h5 class="my-3"> {{tenant.full_name}}'s Records </h5>
+                        <br>
+                        <span class="text-center"><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#recordsBackdrop">
+                           Add Uploads </button> </span>
                     </div>
 
                 <div class="card mb-4">
@@ -58,5 +61,31 @@
       </div>
     </div>
   </div>
+
+  <!-- / .modal-content start -->
+  <div class="modal fade" id="recordsBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="recordsBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="recordsBackdropLabel">Add Records</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post" class="no-padding" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{record_form|crispy }}
+              <br>
+              <div class="form-group text-center">
+                <button class="btn btn-outline-secondary" type="submit">Add</button>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal-content end -->
 </section>
 {% endblock %}

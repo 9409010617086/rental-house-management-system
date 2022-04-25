@@ -103,7 +103,7 @@ def get_related_record_path(instance, filename):
 class RelatedRecords(models.Model):
     tenant = models.ForeignKey(Tenants, on_delete=models.CASCADE)
     title = models.CharField(max_length=155, null=True, blank=True)
-    file = models.FileField(upload_to=get_related_record_path)
+    file = models.FileField(upload_to=get_related_record_path, verbose_name='Upload file')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     

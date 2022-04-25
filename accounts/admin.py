@@ -40,7 +40,7 @@ class RelatedRecordsAdmin(admin.StackedInline):
 class TenantsAdmin(admin.ModelAdmin):
     list_display = ['associated_account', 'created', 'active_phone_number', 'updated']
     list_filter = ['created',]
-    search_fields = ['user',]
+    search_fields = ['associated_account','active_phone_number']
     inlines = [RelatedRecordsAdmin,]
 
 """@admin.register(UserNotifications)

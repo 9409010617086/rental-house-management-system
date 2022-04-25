@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from accounts.models import Managers, Profile, Tenants
+from accounts.models import Managers, Profile, RelatedRecords, Tenants
 from rental_property.models import RentalUnit
   
 User = get_user_model()
@@ -53,4 +53,12 @@ class TenantUpdateForm(forms.ModelForm):
             'move_in_date': DateInput(),
             'id_back': forms.FileInput,
             'id_front': forms.FileInput,
+        }
+
+class RecordsForm(forms.ModelForm):
+    class Meta:
+        model = RelatedRecords
+        fields = ['title','file']
+        widgets = {
+            'file': forms.FileInput,
         }
