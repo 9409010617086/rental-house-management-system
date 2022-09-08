@@ -107,6 +107,20 @@ at any particular time.
 
 The entire relaltionship structure can be found [here](https://github.com/shumwe/rental-house-management-system/tree/main/relationships/relationships.png) or a view the dot [file](https://github.com/shumwe/rental-house-management-system/tree/main/relationships/dotfile.dot)
 
-
-
 [Requirements](https://github.com/shumwe/rental-house-management-system/tree/main/requirements.txt )
+
+# Running the project
+
+### .env variables is needed
+~~~
+DJANGO_SECRET_KEY = #random secret string
+SENDGRID_EMAIL_HOST_PASSWORD = # from your sendgrid account
+CLOUDINARY_API_KEY=#from cloudinary account
+CLOUDINARY_CLOUD_NAME=#from cloudinary account
+CLOUDINARY_API_SECRET=#from cloudinary account
+STRIPE_PUBLISHABLE_KEY=#from stripe account
+STRIPE_SECRET_KEY=#from cloudinary account
+~~~
+
+- ```chmod +x run-project.sh```
+- ```./run-project.sh``` and provide the env variables when prompted.
